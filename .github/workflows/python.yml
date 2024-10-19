@@ -1,0 +1,53 @@
+name: '🔎 Python Tests'
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ci-tests-${{ github.ref }}-pytest
+  cancel-in-progress: true
+
+jobs:
+  python-tests:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.10" ]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: setup_python
+        name: Set up Python ${{ matrix.python-version }} Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies
+        run: pipenv install --dev
+
+      - name: Run Darker
+        run: pipenv run darker --check --diff .
+
+      - name: Lint with Ruff
+        run: pipenv run ruff check --output-format=github
+
+      - name: Convert and run Jupyter Notebooks
+        run: |
+          for notebook in $(find . -name "*.ipynb"); do
+            pipenv run jupyter nbconvert --to notebook --execute $notebook 
+          done
+
+# No tests yet
+#      - name: Unit Tests
+#        run: pipenv run python -m pytest .

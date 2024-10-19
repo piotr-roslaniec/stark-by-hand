@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+galois = "*"
+cryptography = "*"
+
+[dev-packages]
+ruff = "*"
+darker = { extras = ["isort"], version = "*" }
+black = { extras = ["jupyter"], version = "*" }
+jupyter = "*"
+pytest = "*"
+nbconvert = "*"
+
+[requires]
+python_version = "3.10"
