@@ -2,5 +2,6 @@
 
 set -e
 
-pipenv run darker .
-pipenv run ruff check --fix .
+nbqa black ./notebooks
+nbqa isort ./notebooks --float-to-top
+nbqa blacken-docs ./notebooks --nbqa-md --nbqa-diff

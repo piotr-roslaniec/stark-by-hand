@@ -5,15 +5,15 @@ name = "pypi"
 
 [packages]
 galois = "*"
-cryptography = "*"
+sympy = "*"
+numpy = "*"
 
 [dev-packages]
-ruff = "*"
-darker = { extras = ["isort"], version = "*" }
-black = { extras = ["jupyter"], version = "*" }
 jupyter = "*"
 pytest = "*"
 nbconvert = "*"
+jupytext = "*"
+nbqa = { extras = ["toolchain"], version = "*" }
 
 [requires]
 python_version = "3.10"

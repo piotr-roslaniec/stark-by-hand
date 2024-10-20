@@ -36,18 +36,17 @@ jobs:
       - name: Install dependencies
         run: pipenv install --dev
 
-      - name: Run Darker
-        run: pipenv run darker --check --diff .
+      - name: Lint Jupyter Notebooks with nbqa black
+        run: pipenv run nbqa black ./notebooks
 
-      - name: Lint with Ruff
-        run: pipenv run ruff check --output-format=github
+      - name: Lint Jupyter Notebooks with nbqa isort
+        run: pipenv run nbqa isort ./notebooks --float-to-top
+
+      - name: Lint Jupyter Notebooks with nbqa blacken-docs
+        run: pipenv run nbqa blacken-docs ./notebooks --nbqa-md --nbqa-diff
 
       - name: Convert and run Jupyter Notebooks
         run: |
           for notebook in $(find . -name "*.ipynb"); do
             pipenv run jupyter nbconvert --to notebook --execute $notebook 
           done
-
-# No tests yet
-#      - name: Unit Tests
-#        run: pipenv run python -m pytest .
